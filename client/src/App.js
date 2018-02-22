@@ -3,6 +3,18 @@ import "./App.css";
 
 import { getWeather } from './services/weather';
 
+const CurrentWeather = props => {
+  return (
+    <section>
+      <ul>
+        <li>Time: {props.time}</li>
+        <li>Summary: {props.summary}</li>
+        <li>Icon: {props.icon}</li>
+        <li>Temperature: {props.temperature}</li>
+      </ul>
+    </section>
+  );
+}
 class App extends Component {
   constructor() {
     super();
@@ -27,7 +39,6 @@ class App extends Component {
   }
   handleSubmit(e) {
     e.preventDefault();
-    console.log('whoa. WHOA!');
     getWeather(this.state.lat, this.state.lon)
       .then(response => {
         const currentWeather = response.data.currently;
@@ -69,9 +80,9 @@ class App extends Component {
           </label>
           <button type="submit">Get The Weather!</button>
         </form>
-        <pre>
-          {JSON.stringify(this.state.currentWeather, null, 4)}
-        </pre>
+        {Object.keys(this.state.currentWeather).length === 0 ?
+          "" :
+          <CurrentWeather {...this.state.currentWeather}/>}
       </div>
     );
   }
